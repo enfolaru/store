@@ -3,7 +3,7 @@ import { resolve } from 'path';
 
 export enum ArgvType {
   WATCH = '--watch',
-  PACKAGE = '--package'
+  PACKAGE = '--package',
 }
 
 interface Package {
@@ -17,7 +17,7 @@ export function getPackages(): Package[] {
   const json = require('../package.json');
   const packages: string[] = json.packages;
 
-  return packages.map(pack => {
+  return packages.map((pack) => {
     const path = pack.split('/');
     const name = path[path.length - 1];
     const packageName = `${json.packageScope}/${name}`;
@@ -27,7 +27,7 @@ export function getPackages(): Package[] {
       name,
       packageName,
       buildPath,
-      ngPackagrProjectPath
+      ngPackagrProjectPath,
     };
   });
 }
@@ -58,7 +58,7 @@ export async function publishAllPackagesToNpm(version: any, tag: string) {
 async function publishPackage(pack: Package, version: any, tag: string) {
   const packageDescription = `${pack.buildPath} ${version} @${tag}`;
   try {
-    const script = `yarn publish --access public --non-interactive --no-git-tag-version --new-version ${version} --tag ${tag}`;
+    const script = `yarn publish --no-git-tag-version --new-version ${version} --tag ${tag}`;
     const output = await execute(script, { cwd: pack.buildPath });
     console.log(`Published ${packageDescription} /r/n -> ${output}`);
   } catch ({ error, stdErr }) {

@@ -16,7 +16,7 @@ async function main() {
 
   // construct new version from base version 2.0.0 to become 2.0.0+dev.shortsha
   const version: SemVer = parse(json.version)!;
-  const newVersion = `${version.major}.${version.minor}.${version.patch}-dev.master-${commit}`;
+  const newVersion = `${version.major}.${version.minor}.${version.patch}-${commit}`;
 
   console.log('publishing new version', newVersion);
 
@@ -24,7 +24,7 @@ async function main() {
   await publishAllPackagesToNpm(newVersion, 'dev');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
